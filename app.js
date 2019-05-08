@@ -9,9 +9,11 @@
 
 class App {
   constructor() {
+    // bind event
     this._eventShowMain = this._eventShowMain.bind(this)
     this._eventShowResult = this._eventShowResult.bind(this)
 
+    // create menu / flashcard / result
     const menuElement = document.querySelector('#menu')
     this.menu = new MenuScreen(menuElement)
 
@@ -20,19 +22,24 @@ class App {
 
     const resultElement = document.querySelector('#results')
     this.results = new ResultsScreen(resultElement)
-
+    
+    // add eventListener
     document.addEventListener('eventShowResult', this._eventShowResult)
     document.addEventListener('eventShowMain', this._eventShowMain)
   }
   _eventShowMain(event) {
     this.menu.hide()
     this.results.hide()
+
+    // itemNumber: the no. of deck.
+    // wrongIndex: the card's no. which is wrong answer.
+    // if wrongIndex.length == 0, all card will be show.
     this.flashcards.show(event.detail.itemNumber, event.detail.wrongIndex)
   }
 
   _eventShowResult(event) {
     this.flashcards.hide()
-    console.log(event.detail.wrongIndex)
-    this.results.show(event.detail.itemNumber, event.detail.right, event.detail.wrong, event.detail.wrongIndex)
+    this.results.show(event.detail.right, event.detail.wrong)
+    this.results.setContinueArgs(event.detail.itemNumber, event.detail.wrongIndex)
   }
 }

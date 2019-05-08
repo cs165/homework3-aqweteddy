@@ -8,18 +8,19 @@
 
 class ResultsScreen {
   constructor(containerElement) {
+    // bind
+    this._gotoMenu = this._gotoMenu.bind(this)
+    this._continue = this._continue.bind(this)
+
     this.containerElement = containerElement
     this.wrongIndex = new Array()
     this.itemNumber = -1
 
-    this._gotoMenu = this._gotoMenu.bind(this)
-    this._continue = this._continue.bind(this)
-
     const toMenu = this.containerElement.querySelector('.to-menu')
-    toMenu.addEventListener('click', this._gotoMenu)
+    toMenu.addEventListener('click', this._gotoMenu) // click event
 
     const cont = this.containerElement.querySelector('.continue')
-    cont.addEventListener('click', this._continue)
+    cont.addEventListener('click', this._continue) // click event
   }
 
   _gotoMenu(event) {
@@ -28,20 +29,24 @@ class ResultsScreen {
   }
 
   _continue(event) {
+    // generate a custom event
     document.dispatchEvent(new CustomEvent('eventShowMain', {
       detail: {'wrongIndex': this.wrongIndex, 'itemNumber': this.itemNumber}
     }))
   }
 
-  show(itemNumber, numberCorrect, numberWrong, wrongIndex) {
+  show(numberCorrect, numberWrong) {
 
     const percent = Math.round(numberCorrect / (numberCorrect + numberWrong) * 100)
     this.containerElement.querySelector('.percent').innerHTML = percent
     this.containerElement.querySelector('.correct').innerHTML = numberCorrect
     this.containerElement.querySelector('.incorrect').innerHTML = numberWrong
+    this.containerElement.classList.remove('inactive')
+  }
+
+  setContinueArgs(itemNumber, wrongIndex) {
     this.wrongIndex = wrongIndex
     this.itemNumber = itemNumber
-    this.containerElement.classList.remove('inactive')
   }
 
   hide() {

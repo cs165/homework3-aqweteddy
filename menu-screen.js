@@ -8,20 +8,21 @@
 
 class MenuScreen {
   constructor(containerElement) {
-    this.containerElement = containerElement;
-    this.menu = new Array();
-    for (var i = 0; i < 3; ++i) {
+    this.containerElement = containerElement
+    this.menu = new Array()
+
+    // show the title of decks
+    for (var i = 0; i < FLASHCARD_DECKS.length; ++i) {
       this.menu.push(document.createElement('div'))
-      this.menu[i].innerHTML = FLASHCARD_DECKS[i].title
-      this.menu[i].id = i
-      this.containerElement.querySelector('#choices').appendChild(this.menu[i]);
-    }
-    for (var i = 0; i < 3; ++i) {
-      this.menu[i].addEventListener('click', this._gotoGame)
-    }
+      this.menu[i].innerHTML = FLASHCARD_DECKS[i].title // set title content
+      this.menu[i].id = i // set html id
+      this.containerElement.querySelector('#choices').appendChild(this.menu[i]) // append to the document
+      this.menu[i].addEventListener('click', this._gotoGame) // click event
+    }    
   }
 
   _gotoGame(event) {
+    // generate event `eventShowMain`
     document.dispatchEvent(new CustomEvent('eventShowMain', {
       detail: {'itemNumber': event.currentTarget.id, 'wrongIndex': new Array()}
     }))

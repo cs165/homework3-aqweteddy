@@ -7,18 +7,26 @@
 // - Adding additional fields
 
 class Flashcard {
-  constructor(containerElement, frontText, backText, eventScore) {
+  constructor(containerElement, frontTexts, backTexts, eventScore) {
     this.containerElement = containerElement
+    
+    // bind event
     this._pointDown = this._pointDown.bind(this)
     this._pointMove = this._pointMove.bind(this)
     this._pointUp = this._pointUp.bind(this)
-    this.cnt = 0
+
+    this.cnt = 0 // count for numbers of cards has drawned
+
+    // mouse origin
     this.originX = 0
     this.originY = 0
-    this._eventScore = eventScore
 
-    this.frontTexts = frontText
-    this.backTexts = backText
+    // active this event when score change
+    this._eventScore = eventScore
+    
+    // card content
+    this.frontTexts = frontTexts
+    this.backTexts = backTexts
     this.next()
   }
 
@@ -26,7 +34,7 @@ class Flashcard {
     this.containerElement.innerHTML = ''
     this.flashcardElement = this._createFlashcardDOM(this.frontTexts[this.cnt], this.backTexts[this.cnt])
     this.containerElement.append(this.flashcardElement)
-    ++ this.cnt
+    ++this.cnt
     return true
   }
 
@@ -74,7 +82,8 @@ class Flashcard {
     // flip card
     if (this.originX === event.clientX && this.originY === event.clientY)
       this.flashcardElement.classList.toggle('show-word')
-    // release mouse & reset backgroud & reset origin
+    
+      // release mouse & reset backgroud & reset origin
     document.querySelector('body').style.background = '#d0e6df'
     this.flashcardElement.style.transform = ''
     this.flashcardElement.style.transition = '0.6s'
@@ -89,13 +98,20 @@ class Flashcard {
 
   _pointMove(event) {
     event.preventDefault()
-    if(this.originX == 0 && this.originY == 0) return
+    
+    // prevent point not click
+    if (this.originX == 0 && this.originY == 0) return
+
+    // get delta x, delta y, degree of rotate
     const dx = event.clientX - this.originX
     const dy = event.clientY - this.originY
     const deg = dx * 0.2
 
-    if(dx > 150 || dx < -150) document.querySelector('body').style.background = '#97b7b7'
+    // change background
+    if (dx > 150 || dx < -150) document.querySelector('body').style.background = '#97b7b7'
     else document.querySelector('body').style.background = '#d0e6df'
+    
+    // animation
     this.flashcardElement.style.transition = ''
     this.flashcardElement.style.transform = `translate(${dx}px, ${dy}px) rotate(${deg}deg)`
   }

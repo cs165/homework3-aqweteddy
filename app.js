@@ -34,7 +34,6 @@ class App {
     // itemNumber: the no. of deck.
     // wrongIndex: the card's no. which is wrong answer.
     // if wrongIndex.length == 0, all card will be show.
-    console.log(event.detail.wrongIndex)
     this.flashcards.show(event.detail.itemNumber, event.detail.wrongIndex)
   }
 

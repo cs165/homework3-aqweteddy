@@ -9,21 +9,29 @@
 
 class App {
   constructor() {
-    const menuElement = document.querySelector('#menu');
-    this.menu = new MenuScreen(menuElement);
+    this._eventShowMain = this._eventShowMain.bind(this)
+    this._eventShowResult = this._eventShowResult.bind(this)
 
-    const mainElement = document.querySelector('#main');
-    this.flashcards = new FlashcardScreen(mainElement);
+    const menuElement = document.querySelector('#menu')
+    this.menu = new MenuScreen(menuElement)
+    document.addEventListener('eventShowMain', this._eventShowMain)
 
-    const resultElement = document.querySelector('#results');
-    this.results = new ResultsScreen(resultElement);
+    const mainElement = document.querySelector('#main')
+    this.flashcards = new FlashcardScreen(mainElement)
+    document.addEventListener('eventShowResult', this._eventShowResult)
 
-    // Uncomment this pair of lines to see the "flashcard" screen:
-    // this.menu.hide();
-    // this.flashcards.show();
+    const resultElement = document.querySelector('#results')
+    this.results = new ResultsScreen(resultElement)
+  }
+  _eventShowMain(event) {
+    this.menu.hide()
+    this.results.hide()
+    this.flashcards.show(event.detail.itemNumber, event.detail.wrongIndex)
+  }
 
-    // Uncomment this pair of lines to see the "results" screen:
-    // this.menu.hide();
-    // this.results.show();
+  _eventShowResult(event) {
+    this.flashcards.hide()
+    console.log(event.detail.wrongIndex)
+    this.results.show(event.detail.itemNumber, event.detail.right, event.detail.wrong, event.detail.wrongIndex)
   }
 }

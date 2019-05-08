@@ -29,4 +29,4 @@ const FLASHCARD_DECKS = [{
     '바나나': 'banana',
     '복숭아': 'peach'
   }
-}];
+}]

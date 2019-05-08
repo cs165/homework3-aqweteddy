@@ -14,14 +14,15 @@ class App {
 
     const menuElement = document.querySelector('#menu')
     this.menu = new MenuScreen(menuElement)
-    document.addEventListener('eventShowMain', this._eventShowMain)
 
     const mainElement = document.querySelector('#main')
     this.flashcards = new FlashcardScreen(mainElement)
-    document.addEventListener('eventShowResult', this._eventShowResult)
 
     const resultElement = document.querySelector('#results')
     this.results = new ResultsScreen(resultElement)
+
+    document.addEventListener('eventShowResult', this._eventShowResult)
+    document.addEventListener('eventShowMain', this._eventShowMain)
   }
   _eventShowMain(event) {
     this.menu.hide()

@@ -7,7 +7,7 @@
 // - Adding additional fields
 
 class Flashcard {
-  constructor(containerElement, frontText, backText, score) {
+  constructor(containerElement, frontText, backText, eventScore) {
     this.containerElement = containerElement
     this._pointDown = this._pointDown.bind(this)
     this._pointMove = this._pointMove.bind(this)
@@ -15,14 +15,19 @@ class Flashcard {
     this.cnt = 0
     this.originX = 0
     this.originY = 0
-    this._score = score
+    this._eventScore = eventScore
 
     this.frontTexts = frontText
     this.backTexts = backText
-    this.containerElement.innerHTML = ''
+    this.next()
+  }
 
-    this.flashcardElement = this._createFlashcardDOM(this.frontTexts[0], this.backTexts[0])
+  next() {
+    this.containerElement.innerHTML = ''
+    this.flashcardElement = this._createFlashcardDOM(this.frontTexts[this.cnt], this.backTexts[this.cnt])
     this.containerElement.append(this.flashcardElement)
+    ++ this.cnt
+    return true
   }
 
   // Creates the DOM object representing a flashcard with the given
@@ -57,7 +62,7 @@ class Flashcard {
     cardContainer.appendChild(definitionSide)
     cardContainer.style.animation = "bottomToTop 0.5s"
 
-    cardContainer.addEventListener("pointerup", this._score)
+    cardContainer.addEventListener("pointerup", this._eventScore)
     cardContainer.addEventListener("pointerup", this._pointUp)
     cardContainer.addEventListener("pointerdown", this._pointDown)
     cardContainer.addEventListener("pointermove", this._pointMove)
@@ -65,19 +70,11 @@ class Flashcard {
     return cardContainer
   }
 
-  next() {
-    this.cnt++
-    this.containerElement.innerHTML = ''
-    this.flashcardElement = this._createFlashcardDOM(this.frontTexts[this.cnt], this.backTexts[this.cnt])
-    this.containerElement.append(this.flashcardElement)
-    return true
-  }
-
-  _pointUp(event) { // pointUp
+  _pointUp(event) {
     // flip card
     if (this.originX === event.clientX && this.originY === event.clientY)
       this.flashcardElement.classList.toggle('show-word')
-    // release mouse & reset backgroud
+    // release mouse & reset backgroud & reset origin
     document.querySelector('body').style.background = '#d0e6df'
     this.flashcardElement.style.transform = ''
     this.flashcardElement.style.transition = '0.6s'

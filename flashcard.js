@@ -83,7 +83,7 @@ class Flashcard {
     if (this.originX === event.clientX && this.originY === event.clientY)
       this.flashcardElement.classList.toggle('show-word')
     
-      // release mouse & reset backgroud & reset origin
+    // release mouse & reset backgroud & set animation & reset origin
     document.querySelector('body').style.background = '#d0e6df'
     this.flashcardElement.style.transform = ''
     this.flashcardElement.style.transition = '0.6s'

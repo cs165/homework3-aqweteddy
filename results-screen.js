@@ -36,7 +36,7 @@ class ResultsScreen {
   }
 
   show(numberCorrect, numberWrong) {
-    // show result
+    // set result
     const percent = Math.round(numberCorrect / (numberCorrect + numberWrong) * 100)
     this.containerElement.querySelector('.percent').innerHTML = percent
     this.containerElement.querySelector('.correct').innerHTML = numberCorrect

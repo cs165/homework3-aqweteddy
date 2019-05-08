@@ -32,7 +32,7 @@ class FlashcardScreen {
     // direction X move > 150
     if (dx < -150) { // wrong
       ++this.wrong
-      this.wrongIndex.push(this.card.cnt)
+      this.wrongIndex.push(this.card.cnt - 1)
     }
     else if (dx > 150) // right
       ++this.right

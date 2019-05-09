@@ -92,6 +92,8 @@ class Flashcard {
   }
 
   _pointDown(event) {
+    // still monitor the mouse when out of the window
+    event.currentTarget.setPointerCapture(event.pointerId)
     this.originX = event.clientX
     this.originY = event.clientY
   }
